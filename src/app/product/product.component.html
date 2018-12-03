@@ -1,0 +1,33 @@
+    <h3>Product List:</h3>
+<article>
+  <ul class="products">
+	<input type='text' [(ngModel)]="filterText">
+		<select [(ngModel)]="filterText">
+		<option value='Select'>All</option>
+		<option value='Furniture'>Furniture</option>
+		<option value='Electricals'>Electricals</option>
+		<option value='Electronic'>Electronic</option>
+	</select>
+    <li *ngFor="let product of products | filter: filterText">
+	
+       <div (click)="select(product) "
+        >{{product.productName}}  ${{product.productPrice}}
+        <button (click)="compare(product)">Add to compare</button>
+      </div>
+    </li>
+  </ul>
+  <story-product [product]="selectedProduct"></story-product>
+  <div *ngIf="selectedProduct">
+    {{selectedProduct.productName}} is selected.
+  </div>
+  <input type="button" value="Add To Your Cart" (click)="add($event)">
+  
+  <br>
+  <app-comparision [compareList] = "comparision"></app-comparision>
+  <input type="button" value="Clear comparision" (click)="clear()">
+</article>
+
+
+
+
+
