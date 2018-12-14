@@ -1,28 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptionsArgs, RequestMethod, URLSearchParams  } from '@angular/http';
 import { Product } from '../product/product.service';
+import { Information, InformationService } from '../information/information.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SaverecordService {
-  cart: Product[];
   itemList: any = [];
   constructor(private http: Http) {
-    this.cart = JSON.parse(sessionStorage.getItem('cart'));
-    for ( const product of this.cart) {
-      this.itemList.push(product.productName);
-    }
   }
-  saveRecord(email: string, address: string, name: string, phone: string) {
+  saveRecord(info: Information, cart: Product[], total: number, purchaseId: string) {
     const params: URLSearchParams = new URLSearchParams();
-    params.set('purchaseId', 's5678');
-    params.set('itemList', this.itemList);
-    params.set('customerName', name);
-    params.set('customerEmail', email);
-    params.set('customerAddress', address);
-    params.set('customerPhone', phone);
-    this.http.post('http://localhost:3000/record', params).subscribe((res) => {
+    params.set('purchaseId', purchaseId);
+    params.set('itemList', JSON.stringify(cart));
+    params.set('customerName', info.name);
+    params.set('customerEmail', info.email);
+    params.set('customerAddress', info.address);
+    params.set('customerPhone', info.phone);
+    params.set('userid', info.userid);
+    params.set('total', '' + total);
+    console.log(params);
+    this.http.post('http://localhost:3000/record?purchaseId=xxx', params).subscribe((res) => {
       console.log(res);
     });
 

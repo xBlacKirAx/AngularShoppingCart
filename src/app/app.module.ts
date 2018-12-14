@@ -12,13 +12,22 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule, routableComponents } from './app-routing.module';
 import { ContactInfoComponent } from './contact-info/contact-info.component';
 import { CartService } from './cart.service';
+import { InformationService } from './information/information.service';
 import { YourCartComponent } from './your-cart/your-cart.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { ComparisionComponent } from './comparision/comparision.component';
 import { HttpModule } from '@angular/http';
 import { HelpComponent } from './help/help.component';
 import { RecordDisplayComponent } from './help/record-display.component';
-
+import { LoginComponent } from './login/login.component';
+import { InformationComponent } from './information/information.component';
+import { ShoppingHistoryComponent } from './shopping-history/shopping-history.component';
+import { MessageService } from './message.service';
+import { LoginoutService } from './loginout.service';
+import { CustomerServiceCenterComponent } from './customer-service-center/customer-service-center.component';
+import { RegisterComponent } from './register/register.component';
+import { ImageComponent } from './image/image.component';
+import { ImageService} from './image.service';
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule, HttpModule],
@@ -29,8 +38,14 @@ import { RecordDisplayComponent } from './help/record-display.component';
     CheckOutComponent,
     ComparisionComponent,
     HelpComponent,
-    RecordDisplayComponent],
+    RecordDisplayComponent,
+    LoginComponent,
+    InformationComponent,
+    ShoppingHistoryComponent,
+    CustomerServiceCenterComponent,
+    RegisterComponent,
+    ImageComponent],
   bootstrap: [AppComponent],
-  providers: [CartService]
+  providers: [CartService, InformationService, MessageService, LoginoutService, ImageService]
 })
 export class AppModule {}

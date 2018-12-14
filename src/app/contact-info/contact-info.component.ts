@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginoutService } from '../loginout.service';
 
 @Component({
   selector: 'app-contact-info',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactInfoComponent implements OnInit {
 
-  constructor() { }
+  constructor(public loginoutService: LoginoutService) { }
 
   ngOnInit() {
+    if (sessionStorage.getItem('userid') ) {
+      this.loginoutService.inout = true;
+    }
   }
 
 }

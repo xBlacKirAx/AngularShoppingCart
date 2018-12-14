@@ -1,31 +1,48 @@
     <h3>Product List:</h3>
-<article>
-  <ul class="products">
-	<input type='text' [(ngModel)]="filterText">
-		<select [(ngModel)]="filterText">
-		<option value='Select'>All</option>
-		<option value='Furniture'>Furniture</option>
-		<option value='Electricals'>Electricals</option>
-		<option value='Electronic'>Electronic</option>
-	</select>
-    <li *ngFor="let product of products | filter: filterText">
-	
-       <div (click)="select(product) "
-        >{{product.productName}}  ${{product.productPrice}}
-        <button (click)="compare(product)">Add to compare</button>
-      </div>
-    </li>
-  </ul>
-  <story-product [product]="selectedProduct"></story-product>
-  <div *ngIf="selectedProduct">
-    {{selectedProduct.productName}} is selected.
-  </div>
-  <input type="button" value="Add To Your Cart" (click)="add($event)">
-  
+		
+    <table  id="productsList">
+      <tbody>
+      <tr>
+          <td>Product Name</td>
+          <td>Category
+            <select [(ngModel)]="filterText">
+              <option value='Select'>All</option>
+              <option value='Furniture'>Furniture</option>
+              <option value='Electricals'>Electricals</option>
+              <option value='Electronic'>Electronic</option>
+            </select>
+          </td>
+          <td>Price</td>
+          <td>Star Rating</td>
+      </tr>
+      <tr *ngFor="let product of products | filter: filterText">
+          <td>{{product.productName}}</td>
+          <td>{{product.productCategory}}</td>
+          <td>$ {{product.productPrice}}</td>
+          <td>
+            <div class="containerdiv">
+                <div>
+                <img src="assets/img/stars_blank.png" alt="img">
+                </div>
+                <div class="cornerimage" [style.width.%]="product.starRating*100/5">
+                <img src="assets/img/stars_full.png" alt="">
+                </div>
+            </div>
+          </td>
+          <td >
+            <img  src={{product.img}} width="200" height="160" class="tn" >
+          </td>
+          <td><button (click)="compare(product)">Add to compare</button></td>
+          <td><button (click)="add(product)">Add to Your Cart</button></td>
+      </tr>
+      </tbody>
+    </table>
+    <div *ngFor='let message of messageService.cartMessage'> {{message}} </div>
+  <h1>{{message}}</h1>
   <br>
-  <app-comparision [compareList] = "comparision"></app-comparision>
-  <input type="button" value="Clear comparision" (click)="clear()">
-</article>
+  <app-comparision  [(compareList)] = "messageService.compareList"></app-comparision>
+ 
+  
 
 
 

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Product, ProductService } from './product.service';
 import { CartService} from '../cart.service';
+import { MessageService } from '../message.service';
+import { ImageService } from '../image.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,41 +12,55 @@ import { CartService} from '../cart.service';
   providers: [ProductService, CartService]
 })
 export class ProductsComponent implements OnInit {
-  @Output() changed = new EventEmitter<Product>();
-  @Input() storyId: number;
 
-  comparision: Product[] = [];
   addedProducts = [];
-  products: any;
+  products: Product[] = [];
   selectedProduct: Product;
   cart = [];
-  constructor(private productService: ProductService, private cartService: CartService) {}
+  message: string;
+  visibleImages: any[] = [];
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService,
+    public messageService: MessageService,
+    public imageService: ImageService
+    ) {
+      this.visibleImages = this.imageService.getImages();
+      console.log(this.visibleImages);
+    }
 
   ngOnInit() {
     this.productService
-      .getProducts(this.storyId)
-      .subscribe(products => (this.products = products));
+      .getAllProducts()
+      .subscribe(products => {
+        this.products = products;
+        products.forEach(product => {
+          product.img = this.imageService.getImage(product.productName).url;
+        });
+      });
       if ( !sessionStorage.getItem('cart') ) {
         sessionStorage.setItem('cart', JSON.stringify(this.cart));
       }
   }
 
   select(selectedProduct: Product) {
-    console.log(this.products);
     this.selectedProduct = selectedProduct;
-    this.changed.emit(selectedProduct);
   }
-  add() {
-    this.cart = JSON.parse(sessionStorage.getItem('cart'));
-    this.cart.push(this.selectedProduct);
-    sessionStorage.setItem( 'cart' , JSON.stringify(this.cart));
-    console.log(this.cart);
+  add(product: Product) {
+    if ( !sessionStorage.getItem('userid')) {
+      this.message = 'Please log in first';
+    } else {
+      this.cart.push(product);
+      sessionStorage.setItem( 'cart' , JSON.stringify(this.cart));
+      console.log(this.cart);
+      this.messageService.setCartMessage('You added ' + product.productName + ' to your cart!');
+    }
   }
   compare(product: Product) {
-    this.comparision.push(product);
-    console.log(this.comparision);
+    this.messageService.compareList.push(product);
   }
-  clear() {
-    this.comparision = [];
+  getImage(name: string): string {
+    console.log(name);
+    return '1';
   }
 }

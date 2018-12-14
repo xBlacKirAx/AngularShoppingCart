@@ -19,13 +19,12 @@ import { Product } from '../product/product.service';
   styleUrls: ['./your-cart.component.css'],
 })
 export class YourCartComponent implements OnInit {
-  cart: Product[];
+  cart: Product[] = [];
   total = 0;
   constructor(private cartService: CartService) {
     this.cart = JSON.parse(sessionStorage.getItem('cart'));
   }
   ngOnInit() {
-    console.log(this.cart);
     for ( const product of this.cart) {
       this.total += product.productPrice;
     }

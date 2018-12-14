@@ -8,7 +8,10 @@ import { catchError, map, tap } from 'rxjs/operators';
 export class Record {
   _id: number;
   purchaseId: string;
-  itemList: [];
+  itemList: string;
+  userid: string;
+  date: Date;
+  total: number;
   customerName: string;
   customerEmail: string;
   customerAddress: string;
@@ -21,10 +24,13 @@ export class Record {
 export class RecordService {
 
   constructor(private http: HttpClient) {}
-  getRecordById(purchaseId: string): Observable<Record> {
+  getRecordByPurchaseId(purchaseId: string): Observable<Record> {
     const url = 'http://localhost:3000/record?purchaseId=' + purchaseId;
-    console.log(url);
     return this.http.get<Record>(url);
+  }
+  getRecordByUserId(userid: string): Observable<Record[]> {
+    const url = 'http://localhost:3000/record/history?userid=' + userid;
+    return this.http.get<Record[]>(url);
   }
 }
 

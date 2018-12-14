@@ -1,0 +1,24 @@
+img{
+    display:block; height:auto;
+}
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+  }
+
+  .containerdiv {
+    border: 0;
+    float: left;
+    position: relative;
+    width: 100px;
+  } 
+  .cornerimage {
+    border: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+   } 
+   img{
+     max-width: 100px;
+   }
